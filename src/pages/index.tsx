@@ -7,7 +7,7 @@ const Home: React.FC = () => {
 	return (
 		<React.Fragment>
 			<Layout pageTitle="" contentTitle="">
-				<SynchronizedClocks initialTime={ new Date() } />
+				<SynchronizedClocks />
 			</Layout>
 		</React.Fragment>
 	)

@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import 'react-clock/dist/Clock.css';
 import {
 	Box,
 	TextField,
@@ -11,6 +12,7 @@ import {
 import { TimePicker } from '@material-ui/pickers';
 import DigitalClock from './DigitalClock';
 import Clock from 'react-clock';
+import { add, addSeconds } from 'date-fns';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return createStyles({
@@ -32,42 +34,52 @@ interface UpdateDigital {
 	time: Date | null;
 }
 
-type Action = UpdateAnalog | UpdateDigital;
+interface UpdateSeconds {
+	type: 'seconds';
+}
+
+type Action = UpdateAnalog | UpdateDigital | UpdateSeconds;
 
 type TimeState = {
-	time: Date;
+	time: Date | undefined;
+}
+
+const initialTime: TimeState = {
+	time: undefined
 }
 
 const reducer = (state: TimeState, action: Action) => {
 	switch (action.type) {
 		case 'analog':
-			console.log(action.time);
 			return {
 				time: action.time ?? new Date()
 			};
 		case 'digital':
-			console.log(action.time);
 			return {
 				time: action.time ?? new Date()
 			};
+		case 'seconds':
+			return {
+				time: state.time ? addSeconds(state.time, 1) : undefined
+			}
 		default: return state;
 	}
 }
 
-interface Props {
-	initialTime: Date;
-}
+const SynchronizedClocks: React.FC = () => {
 
-const SynchronizedClocks: React.FC<Props> = (props) => {
-	const { initialTime } = props;
-	const [state, dispatch] = React.useReducer(reducer, { time: initialTime });
+	const [state, dispatch] = React.useReducer(reducer, initialTime);
 	const classes = useStyles(useTheme());
 
-	const [value, setValue] = React.useState(new Date());
+	React.useEffect(() => {
+		if (!state.time) {
+			dispatch({ type: 'digital', time: new Date() });
+		}
+	}, []);
 
 	React.useEffect(() => {
 		const interval = setInterval(
-			() => setValue(new Date()),
+			() => dispatch({ type: 'seconds' }),
 			1000
 		);
 
@@ -78,18 +90,34 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 
 	return (
 		<React.Fragment>
-			<Box className={classes.clockContainer}>
-				<Typography variant="caption">
-					Clock 1:
-				</Typography>
-				<DigitalClock time={value}/>
-			</Box>
-			<Box className={classes.clockContainer}>
-				<Typography variant="caption">
-					Clock 2:
-				</Typography>
-				<Clock value={value}/>
-			</Box>
+			{state.time &&
+				<Box>
+					<Box className={classes.clockContainer}>
+						<Typography variant="caption">
+							Clock 1:
+						</Typography>
+						<TimePicker
+							value={state.time}
+							onChange={(newValue) => {
+								dispatch({ type: 'digital', time: newValue });
+							}}
+						/>
+						<DigitalClock time={state.time} />
+					</Box>
+					<Box className={classes.clockContainer}>
+						<Typography variant="caption">
+							Clock 2:
+						</Typography>
+						<TimePicker
+							value={state.time}
+							onChange={(newValue) => {
+								dispatch({ type: 'analog', time: newValue });
+							}}
+						/>
+						<Clock value={state.time} size={200} />
+					</Box>
+				</Box>
+			}
 		</React.Fragment>
 	);
 }
