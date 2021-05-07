@@ -3,15 +3,12 @@ import '../custom.css';
 import type { AppProps } from 'next/app';
 import { theme } from '../styles';
 import { ThemeProvider } from '@material-ui/core';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const ClockApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
-	/**
-	 * Necessary to be able to use Material-UI with NextJS.
-	 */
+	// Necessary to be able to use Material-UI with NextJS.
 	React.useEffect(() => {
 		// Remove the server-side injected CSS.
 		const jssStyles = document.querySelector('#jss-server-side');
@@ -21,11 +18,11 @@ const ClockApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 	}, [])
 
 	return (
-		<LocalizationProvider dateAdapter={AdapterDateFns}>
+		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<ThemeProvider theme={theme}>
 				<Component {...pageProps} />
 			</ThemeProvider>
-		</LocalizationProvider>
+		</MuiPickersUtilsProvider>
 	)
 };
 
