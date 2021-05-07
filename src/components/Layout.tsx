@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginBottom: -10,
 			flexGrow: 1,
 			display: 'flex',
+			alignItems: 'center',
 			flexDirection: 'column',
 			zIndex: 1,
 			minHeight: 500,
@@ -31,11 +32,12 @@ const useStyles = makeStyles((theme: Theme) => {
 			},
 		},
 		paper: {
+			display: 'flex',
+			justifyContent: 'center',
+			flexDirection: 'column',
 			flexGrow: 1,
 			flexBasis: "auto",
-			[theme.breakpoints.down('sm')]: {
-				boxShadow: "none",
-			},
+			boxShadow: "none",
 		},
 		content: {
 			paddingTop: theme.spacing(6),

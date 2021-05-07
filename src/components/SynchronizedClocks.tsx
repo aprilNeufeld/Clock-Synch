@@ -1,8 +1,24 @@
 ﻿import * as React from 'react';
 import TimePicker from '@material-ui/lab/TimePicker';
 import {
-	TextField
+	Box,
+	TextField,
+	makeStyles,
+	Theme,
+	createStyles,
+	useTheme,
+	Typography
 } from '@material-ui/core';
+
+const useStyles = makeStyles((theme: Theme) => {
+	return createStyles({
+		clockContainer: {
+			display: 'flex',
+			flexDirection: 'column',
+			margin: theme.spacing(4),
+		},
+	})
+});
 
 interface UpdateAnalog {
 	type: 'analog';
@@ -42,18 +58,39 @@ interface Props {
 
 const SynchronizedClocks: React.FC<Props> = (props) => {
 	const { initialTime } = props;
-	const [state, dispatch] = React.useReducer(reducer, { time: new Date() });
+	const [state, dispatch] = React.useReducer(reducer, { time: initialTime });
+	const classes = useStyles(useTheme());
 
 	return (
 		<React.Fragment>
-			<TimePicker
-				value={state.time}
-				onChange={(newValue) => {
-					dispatch({ type: 'digital', time: newValue });
-				}}
-				renderInput={(params) => <TextField {...params} variant="standard" />}
-				
-			/>
+			<Box className={classes.clockContainer}>
+				<Typography variant="caption">
+					Clock 1:
+				</Typography>
+				<TimePicker
+					value={state.time}
+					onChange={(newValue) => {
+						dispatch({ type: 'digital', time: newValue });
+					}}
+					renderInput={(params) =>
+						<TextField {...params} />
+					}
+				/>
+			</Box>
+			<Box className={classes.clockContainer}>
+				<Typography variant="caption">
+					Clock 2:
+				</Typography>
+				<TimePicker
+					value={state.time}
+					onChange={(newValue) => {
+						dispatch({ type: 'analog', time: newValue });
+					}}
+					renderInput={(params) =>
+						<TextField {...params} />
+					}
+				/>
+			</Box>
 		</React.Fragment>
 	);
 }
