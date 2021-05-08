@@ -35,17 +35,13 @@ interface UpdateDigital {
 }
 
 interface UpdateSeconds {
-	type: 'seconds';
+	type: 'tick-seconds';
 }
 
 type Action = UpdateAnalog | UpdateDigital | UpdateSeconds;
 
 type TimeState = {
 	time: Date | undefined;
-}
-
-const initialTime: TimeState = {
-	time: undefined
 }
 
 const reducer = (state: TimeState, action: Action) => {
@@ -58,7 +54,7 @@ const reducer = (state: TimeState, action: Action) => {
 			return {
 				time: action.time ?? new Date()
 			};
-		case 'seconds':
+		case 'tick-seconds':
 			return {
 				time: state.time ? addSeconds(state.time, 1) : undefined
 			}
@@ -68,18 +64,18 @@ const reducer = (state: TimeState, action: Action) => {
 
 const SynchronizedClocks: React.FC = () => {
 
-	const [state, dispatch] = React.useReducer(reducer, initialTime);
+	const [state, dispatch] = React.useReducer(reducer, { time: undefined });
 	const classes = useStyles(useTheme());
 
 	React.useEffect(() => {
+		// Set the initial date only after the first render so that our
+		// clocks are only rendered client-side
 		if (!state.time) {
 			dispatch({ type: 'digital', time: new Date() });
 		}
-	}, []);
-
-	React.useEffect(() => {
+		// Begin ticking every second
 		const interval = setInterval(
-			() => dispatch({ type: 'seconds' }),
+			() => dispatch({ type: 'tick-seconds' }),
 			1000
 		);
 

@@ -1,15 +1,4 @@
 
-html {
-	overflow-x: hidden;
-	margin-right: calc(-1 * (100vw - 100%));
-}
-
-#__next {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-}
-
 body {
 	margin: 0;
 }

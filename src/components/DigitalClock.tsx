@@ -2,13 +2,20 @@
 
 interface Props {
 	time: Date;
+	onClick?: () => void;
 }
 
 const DigitalClock: React.FC<Props> = (props) => {
-	const { time } = props;
+	const { time, onClick } = props;
+
+	const handleClick = () => {
+		if (onClick) {
+			onClick();
+		}
+	}
 
 	return (
-		<Clock format={'HH:mm:ss'} ticking={true} date={time.getTime()} />
+		<Clock format={'h:mm:ss A'} date={time.getTime()} />
 	)
 }
 

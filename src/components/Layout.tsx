@@ -13,43 +13,12 @@ import {
 const useStyles = makeStyles((theme: Theme) => {
 	return createStyles({
 		root: {
-			marginTop: -10,
-			marginBottom: -10,
-			flexGrow: 1,
 			display: 'flex',
 			alignItems: 'center',
 			flexDirection: 'column',
-			zIndex: 1,
-			minHeight: 500,
-			'& a': {
-				color: theme.palette.primary.dark,
-				'&:hover': {
-					textDecoration: 'underline',
-				},
-				'&:not(:hover)': {
-					textDecoration: 'none',
-				},
-			},
 		},
 		paper: {
-			display: 'flex',
-			justifyContent: 'center',
-			flexDirection: 'column',
-			flexGrow: 1,
-			flexBasis: "auto",
-			boxShadow: "none",
-		},
-		content: {
-			paddingTop: theme.spacing(6),
-			paddingBottom: theme.spacing(6),
-			[theme.breakpoints.up('md')]: {
-				paddingRight: theme.spacing(6),
-				paddingLeft: theme.spacing(6),
-			},
-			[theme.breakpoints.down('sm')]: {
-				paddingRight: 0,
-				paddingLeft: 0,
-			},
+			padding: theme.spacing(6),
 		},
 	});
 });
@@ -64,7 +33,7 @@ const Layout: React.FC<Props> = (props) => {
 
 	const { children, pageTitle, contentTitle } = props;
 	const classes = useStyles(useTheme());
-	
+
 	return (
 		<React.Fragment>
 			<Head>
@@ -75,14 +44,12 @@ const Layout: React.FC<Props> = (props) => {
 			<React.Fragment>
 				<Container maxWidth="lg" className={classes.root}>
 					<Paper elevation={2} className={classes.paper} >
-						<Container maxWidth="md" className={classes.content}>
-							<div>
-								{contentTitle &&
-									<PageTitle text={contentTitle} />
-								}
-								{children}
-							</div>
-						</Container>
+						<div>
+							{contentTitle &&
+								<PageTitle text={contentTitle} />
+							}
+							{children}
+						</div>
 					</Paper>
 				</Container>
 			</React.Fragment>
