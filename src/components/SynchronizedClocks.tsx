@@ -57,6 +57,11 @@ const reducer = (state: TimeState, action: Action) => {
 	}
 }
 
+interface Props {
+	initialTime?: Date;
+	ticking: boolean;
+}
+
 /**
  * This component holds two synchronized clocks: one digital, and one analog.
  * The clocks each tick through the seconds. When the user clicks on either clock,
@@ -70,8 +75,9 @@ const reducer = (state: TimeState, action: Action) => {
  * each with their own invisible TimePicker that passes the new time back to the parent rather than
  * just passing back the click event.
  */
-const SynchronizedClocks: React.FC = () => {
+const SynchronizedClocks: React.FC<Props> = (props) => {
 
+	const { initialTime, ticking } = props;
 	const [state, dispatch] = React.useReducer(reducer, { time: undefined });
 	const [open, setOpen] = React.useState(false);
 	const classes = useStyles(useTheme());
@@ -80,17 +86,19 @@ const SynchronizedClocks: React.FC = () => {
 		// Set the initial date only after the first render so that our
 		// clocks are only rendered client-side
 		if (!state.time) {
-			dispatch({ type: 'select-time', time: new Date() });
+			dispatch({ type: 'select-time', time: initialTime ?? new Date() });
 		}
 		// Begin ticking every second
-		const interval = setInterval(
-			() => dispatch({ type: 'tick-seconds' }),
-			1000
-		);
-
-		return () => {
-			clearInterval(interval);
-		}
+		if (ticking) {
+			const interval = setInterval(
+				() => dispatch({ type: 'tick-seconds' }),
+				1000
+			);
+			return () => {
+				clearInterval(interval);
+			}
+		}	
+		
 	}, []);
 
 	const toggleOpenPicker = () => {
