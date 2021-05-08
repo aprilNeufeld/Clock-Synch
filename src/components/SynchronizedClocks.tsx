@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core';
 import { TimePicker } from '@material-ui/pickers';
 import DigitalClock from './DigitalClock';
-import Clock from 'react-clock';
-import { add, addSeconds } from 'date-fns';
+import AnalogClock from './AnalogClock';
+import { addSeconds } from 'date-fns';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return createStyles({
@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'flex',
 			flexDirection: 'column',
 			margin: theme.spacing(4),
+		},
+		timePicker: {
+			// Hide the time picker so we only interact
+			// with it programmatically
+			display: 'none',
 		},
 	})
 });
@@ -65,6 +70,7 @@ const reducer = (state: TimeState, action: Action) => {
 const SynchronizedClocks: React.FC = () => {
 
 	const [state, dispatch] = React.useReducer(reducer, { time: undefined });
+	const [open, setOpen] = React.useState(false);
 	const classes = useStyles(useTheme());
 
 	React.useEffect(() => {
@@ -84,6 +90,10 @@ const SynchronizedClocks: React.FC = () => {
 		}
 	}, []);
 
+	const toggleOpenPicker = () => {
+		setOpen(!open);
+	}
+
 	return (
 		<React.Fragment>
 			{state.time &&
@@ -93,24 +103,30 @@ const SynchronizedClocks: React.FC = () => {
 							Clock 1:
 						</Typography>
 						<TimePicker
+							className={classes.timePicker}
 							value={state.time}
 							onChange={(newValue) => {
 								dispatch({ type: 'digital', time: newValue });
 							}}
+							open={open}
+							onClose={toggleOpenPicker}
 						/>
-						<DigitalClock time={state.time} />
+						<DigitalClock time={state.time} onClick={toggleOpenPicker} />
 					</Box>
 					<Box className={classes.clockContainer}>
 						<Typography variant="caption">
 							Clock 2:
 						</Typography>
 						<TimePicker
+							className={classes.timePicker}
 							value={state.time}
 							onChange={(newValue) => {
 								dispatch({ type: 'analog', time: newValue });
 							}}
+							open={open}
+							onClose={toggleOpenPicker}
 						/>
-						<Clock value={state.time} size={200} />
+						<AnalogClock time={state.time} onClick={toggleOpenPicker} />
 					</Box>
 				</Box>
 			}
