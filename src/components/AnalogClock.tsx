@@ -19,7 +19,7 @@ const AnalogClock: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<div onClick={handleClick}>
+		<div onClick={handleClick} role='button' aria-label='analog-clock'>
 			<Clock value={time} size={200} />
 		</div>
 	)

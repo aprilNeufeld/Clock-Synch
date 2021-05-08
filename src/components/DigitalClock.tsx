@@ -19,8 +19,8 @@ const DigitalClock: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<div onClick={handleClick}>
-			<Clock format={'h:mm:ss A'} date={time.getTime()} />
+		<div onClick={handleClick} role='button' aria-label='digital-clock' >
+			<Clock format={'h:mm:ss A'} date={time.getTime()} key='react-live-clock'/>
 		</div>
 	)
 }

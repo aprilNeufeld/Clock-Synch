@@ -8,7 +8,7 @@ import {
 	useTheme,
 	Typography
 } from '@material-ui/core';
-import { TimePicker } from '@material-ui/pickers';
+import { KeyboardTimePicker } from '@material-ui/pickers';
 import DigitalClock from './DigitalClock';
 import AnalogClock from './AnalogClock';
 import { addSeconds } from 'date-fns';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		timePicker: {
 			// Hide the time picker so we only interact
 			// with it programmatically
-			display: 'none',
+			//display: 'none',
 		},
 	})
 });
@@ -97,8 +97,8 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 			return () => {
 				clearInterval(interval);
 			}
-		}	
-		
+		}
+
 	}, []);
 
 	const toggleOpenPicker = () => {
@@ -121,14 +121,22 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 						</Typography>
 						<AnalogClock time={state.time} onClick={toggleOpenPicker} />
 					</Box>
-					<TimePicker
+					<KeyboardTimePicker
 						className={classes.timePicker}
 						value={state.time}
-						onChange={(newValue) => {
-							dispatch({ type: 'select-time', time: newValue });
+						onChange={(newValue: Date | null) => {
+							console.log(newValue);
+							if (newValue && newValue.getTime()) {
+								console.log("Valid: " + newValue);
+								dispatch({ type: 'select-time', time: newValue });
+							}
 						}}
+						format="h:mm:ss a"
 						open={open}
 						onClose={toggleOpenPicker}
+						DialogProps={{
+							"aria-label": "time-picker"
+						}}
 					/>
 				</Box>
 			}

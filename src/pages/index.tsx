@@ -7,7 +7,7 @@ const Home: React.FC = () => {
 	return (
 		<React.Fragment>
 			<Layout pageTitle="" contentTitle="">
-				<SynchronizedClocks ticking />
+				<SynchronizedClocks ticking={false} />
 			</Layout>
 		</React.Fragment>
 	)
