@@ -15,18 +15,47 @@ import { addSeconds } from 'date-fns';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return createStyles({
-		clockContainer: {
+		root: {
 			display: 'flex',
 			flexDirection: 'column',
-			margin: theme.spacing(4),
+		},
+		clocks: {
+			display: 'flex',
+			justifyContent: 'space-around',
+			alignItems: 'center',
+			[theme.breakpoints.up('md')]: {
+				minWidth: '60vw',
+				flexDirection: 'row',
+			},
+			[theme.breakpoints.down('sm')]: {
+				minWidth: '80vw',
+				flexDirection: 'column',
+			},
+		},
+		clockContainer: {
+			[theme.breakpoints.up('md')]: {
+				margin: theme.spacing(4),
+			},
+			[theme.breakpoints.down('sm')]: {
+				marginTop: theme.spacing(4),
+				marginBottom: theme.spacing(4),
+			},
 		},
 		timePicker: {
 			// Hide the time picker so we only interact
 			// with it programmatically
 			display: 'none',
 		},
+		title: {
+			textAlign: 'center',
+			lineHeight: 2,
+			margin: theme.spacing(2),
+		},
 	})
 });
+
+// ----------------
+// ACTIONS & REDUCER FOR LOCAL STATE
 
 interface SelectTime {
 	type: 'select-time';
@@ -56,6 +85,8 @@ const reducer = (state: TimeState, action: Action) => {
 		default: return state;
 	}
 }
+
+// -------------
 
 interface Props {
 	initialTime?: Date;
@@ -101,6 +132,8 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 
 	}, []);
 
+	// The TimePicker's dialog is opened whenever we click on 
+	// one of the clocks
 	const toggleOpenPicker = () => {
 		setOpen(!open);
 	}
@@ -108,35 +141,34 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 	return (
 		<React.Fragment>
 			{state.time &&
-				<Box>
-					<Box className={classes.clockContainer}>
-						<Typography variant="caption">
-							Clock 1:
-						</Typography>
-						<DigitalClock time={state.time} onClick={toggleOpenPicker} />
+				<Box className={classes.root}>
+					<Typography variant='overline' className={classes.title}>
+						Click on a clock to change the time.
+					</Typography>
+					<Box className={classes.clocks}>
+						<Box className={classes.clockContainer}>
+							<DigitalClock time={state.time} onClick={toggleOpenPicker} />
+						</Box>
+						<Box className={classes.clockContainer}>
+							<AnalogClock time={state.time} onClick={toggleOpenPicker} />
+						</Box>
+						<KeyboardTimePicker
+							className={classes.timePicker}
+							value={state.time}
+							onChange={(newValue: Date | null) => {
+								if (newValue && newValue.getTime()) {
+									dispatch({ type: 'select-time', time: newValue });
+								}
+							}}
+							format="h:mm:ss a"
+							mask="__:__:__ _M"
+							open={open}
+							onClose={toggleOpenPicker}
+							DialogProps={{
+								"aria-label": "time-picker"
+							}}
+						/>
 					</Box>
-					<Box className={classes.clockContainer}>
-						<Typography variant="caption">
-							Clock 2:
-						</Typography>
-						<AnalogClock time={state.time} onClick={toggleOpenPicker} />
-					</Box>
-					<KeyboardTimePicker
-						className={classes.timePicker}
-						value={state.time}
-						onChange={(newValue: Date | null) => {
-							if (newValue && newValue.getTime()) {
-								dispatch({ type: 'select-time', time: newValue });
-							}
-						}}
-						format="h:mm:ss a"
-						mask="__:__:__ _M"
-						open={open}
-						onClose={toggleOpenPicker}
-						DialogProps={{
-							"aria-label": "time-picker"
-						}}
-					/>
 				</Box>
 			}
 		</React.Fragment>

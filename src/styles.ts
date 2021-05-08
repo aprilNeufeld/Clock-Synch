@@ -21,7 +21,7 @@ export const theme = responsiveFontSizes(createMuiTheme({
 			display: 'inline-block',
 		},
 		overline: {
-			fontSize: '2rem',
+			fontSize: '1.5rem',
 		}
 	}
 }));

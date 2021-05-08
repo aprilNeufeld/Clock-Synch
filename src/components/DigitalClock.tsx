@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import Clock from 'react-live-clock';
+import { Typography } from '@material-ui/core';
 
 interface Props {
 	time: Date;
@@ -20,7 +21,9 @@ const DigitalClock: React.FC<Props> = (props) => {
 
 	return (
 		<div onClick={handleClick} role='button' aria-label='digital-clock' >
-			<Clock format={'h:mm:ss A'} date={time.getTime()} key='react-live-clock'/>
+			<Typography variant='h1'>
+				<Clock format={'h:mm:ss A'} date={time.getTime()} />
+			</Typography>
 		</div>
 	)
 }

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Head from 'next/head';
-import PageTitle from '../components/PageTitle';
 import {
 	Container,
 	Paper,
@@ -16,9 +15,18 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'flex',
 			alignItems: 'center',
 			flexDirection: 'column',
+			marginTop: theme.spacing(10),
+			marginBottom: theme.spacing(10)
 		},
 		paper: {
 			padding: theme.spacing(6),
+			margin: theme.spacing(2),
+			[theme.breakpoints.down('sm')]: {
+				flexDirection: 'column',
+				width: '100vw',
+				paddingLeft: theme.spacing(1),
+				paddingRight: theme.spacing(1),
+			},
 		},
 	});
 });
@@ -26,12 +34,11 @@ const useStyles = makeStyles((theme: Theme) => {
 interface Props {
 	children?: React.ReactNode;
 	pageTitle: string;
-	contentTitle?: string;
 }
 
 const Layout: React.FC<Props> = (props) => {
 
-	const { children, pageTitle, contentTitle } = props;
+	const { children, pageTitle } = props;
 	const classes = useStyles(useTheme());
 
 	return (
@@ -45,9 +52,6 @@ const Layout: React.FC<Props> = (props) => {
 				<Container maxWidth="lg" className={classes.root}>
 					<Paper elevation={2} className={classes.paper} >
 						<div>
-							{contentTitle &&
-								<PageTitle text={contentTitle} />
-							}
 							{children}
 						</div>
 					</Paper>
