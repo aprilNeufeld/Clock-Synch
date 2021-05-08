@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		timePicker: {
 			// Hide the time picker so we only interact
 			// with it programmatically
-			//display: 'none',
+			display: 'none',
 		},
 	})
 });
@@ -125,13 +125,12 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 						className={classes.timePicker}
 						value={state.time}
 						onChange={(newValue: Date | null) => {
-							console.log(newValue);
 							if (newValue && newValue.getTime()) {
-								console.log("Valid: " + newValue);
 								dispatch({ type: 'select-time', time: newValue });
 							}
 						}}
 						format="h:mm:ss a"
+						mask="__:__:__ _M"
 						open={open}
 						onClose={toggleOpenPicker}
 						DialogProps={{

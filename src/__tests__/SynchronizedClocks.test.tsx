@@ -3,11 +3,12 @@ import { render, screen, waitForElementToBeRemoved, fireEvent, waitForElement, w
 import userEvent from '@testing-library/user-event';
 import SynchronizedClocks from '../components/SynchronizedClocks';
 
-const testTime = new Date();
+let testTime: Date;
 let digitalClock: HTMLElement;
 let analogClock: HTMLElement;
 
 beforeEach(() => {
+	testTime = new Date();
 	// We have to test with a static pre-determined time
 	render(<SynchronizedClocks ticking={false} initialTime={testTime} />);
 	digitalClock = screen.getByRole('button', { name: 'digital-clock' });
@@ -52,11 +53,23 @@ it('opens the TimePicker dialog when we click on a clock', async () => {
 	//expect(clockMask).toBeInTheDocument();
 })
 
-it.only('updates both clocks when we change the time', () => {
-	
+it('updates both clocks when we change the time', () => {
+
+	// Get the hidden time picker input
 	const timeInput = screen.getByDisplayValue(testTime.toLocaleTimeString());
 	expect(timeInput).toBeInTheDocument();
 
-	userEvent.type(timeInput, "12:00");
-	expect(timeInput).toHaveValue("12:00");
+	// Type in a new value
+	userEvent.type(timeInput, "{selectall}{backspace}120000a");
+	expect(timeInput).toHaveValue("12:00:00 AM");
+	testTime.setHours(0, 0, 0, 0);
+
+	// Check that the digital clock was updated
+	const digitalTimeElement = digitalClock.querySelector('time');
+	expect(digitalTimeElement?.textContent).toBe(testTime.toLocaleTimeString());
+
+	// Analog clock displays the time (we are not testing the clock itself since
+	// the library is already tested; we are instead testing that it has the right time value)
+	const analogTimeElement = analogClock.querySelector('time');
+	expect(analogTimeElement?.getAttribute('datetime')).toBe(testTime.toISOString());
 })
