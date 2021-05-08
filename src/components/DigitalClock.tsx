@@ -1,10 +1,14 @@
-﻿import Clock from 'react-live-clock';
+﻿import * as React from 'react';
+import Clock from 'react-live-clock';
 
 interface Props {
 	time: Date;
 	onClick?: () => void;
 }
 
+/*
+ * A wrapper for a digital clock from react-live-clock.
+ */
 const DigitalClock: React.FC<Props> = (props) => {
 	const { time, onClick } = props;
 

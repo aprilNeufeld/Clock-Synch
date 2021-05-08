@@ -6,6 +6,9 @@ interface Props {
 	onClick?: () => void;
 }
 
+/*
+ * A wrapper for an analog clock from react-clock.
+ */ 
 const AnalogClock: React.FC<Props> = (props) => {
 	const { time, onClick } = props;
 
