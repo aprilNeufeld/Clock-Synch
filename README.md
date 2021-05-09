@@ -10,6 +10,7 @@
 [![Language][language-shield]][repo-url]
 [![React Version][react-version-shield]][package-url]
 [![NextJS Version][next-version-shield]][package-url]
+[![Webpack Version][webpack-version-shield]][package-url]
 [![Last Commit][last-commit-shield]][last-commit-url]
 [![MIT License][license-shield]][license-url]
 
@@ -153,6 +154,7 @@ Project Link: [https://github.com/tricksterCodess/Clock-Synch](https://github.co
 [license-url]: https://github.com/tricksterCodess/Clock-Synch/blob/main/LICENSE.txt
 [language-shield]: https://img.shields.io/github/languages/top/tricksterCodess/Clock-Synch.svg
 [next-version-shield]: https://img.shields.io/github/package-json/dependency-version/tricksterCodess/Clock-Synch/next.svg
+[webpack-version-shield]: https://img.shields.io/github/package-json/dependency-version/tricksterCodess/Clock-Synch/dev/webpack.svg
 [package-url]: https://github.com/tricksterCodess/Clock-Synch/blob/main/package.json
 [project-screenshot]: /public/images/project-ss.png
 [react-version-shield]: https://img.shields.io/github/package-json/dependency-version/tricksterCodess/Clock-Synch/react.svg
