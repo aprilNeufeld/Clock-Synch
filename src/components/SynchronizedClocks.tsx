@@ -13,6 +13,7 @@ import DigitalClock from './DigitalClock';
 import AnalogClock from './AnalogClock';
 import { addSeconds } from 'date-fns';
 
+// Styling
 const useStyles = makeStyles((theme: Theme) => {
 	return createStyles({
 		root: {
@@ -105,6 +106,10 @@ interface Props {
  * Given more time (pun intended), I would also make both the clocks more self-contained, perhaps 
  * each with their own invisible TimePicker that passes the new time back to the parent rather than
  * just passing back the click event.
+ * 
+ * @props initialTime --- The time that the clocks should be initialized to. If not provided,
+ *		the clocks are initialized to the current local time.
+ * @props ticking --- Whether the clocks should keep time every second. This should be false during testing.
  */
 const SynchronizedClocks: React.FC<Props> = (props) => {
 
@@ -129,7 +134,6 @@ const SynchronizedClocks: React.FC<Props> = (props) => {
 				clearInterval(interval);
 			}
 		}
-
 	}, []);
 
 	// The TimePicker's dialog is opened whenever we click on 

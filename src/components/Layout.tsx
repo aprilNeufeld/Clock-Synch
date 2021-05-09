@@ -36,6 +36,9 @@ interface Props {
 	pageTitle: string;
 }
 
+/**
+ * A shared layout component to keep styling consistent.
+ */
 const Layout: React.FC<Props> = (props) => {
 
 	const { children, pageTitle } = props;
