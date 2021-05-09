@@ -64,7 +64,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About
-
+[![Project Screenshot][project-screenshot]](website-url)
 This app contains two ticking clocks - one digital, one analog. To change the time, the user can click on
 either clock and select a new time from a TimePicker dialog. Both clocks are kept perfectly in synch
 with the selected time and with each other.
@@ -154,7 +154,7 @@ Project Link: [https://github.com/tricksterCodess/Clock-Synch](https://github.co
 [language-shield]: https://img.shields.io/github/languages/top/tricksterCodess/Clock-Synch.svg
 [next-version-shield]: https://img.shields.io/github/package-json/dependency-version/tricksterCodess/Clock-Synch/next.svg
 [package-url]: https://github.com/tricksterCodess/Clock-Synch/blob/main/package.json
-[product-screenshot]: images/screenshot.png
+[project-screenshot]: /public/images/project-ss.png
 [react-version-shield]: https://img.shields.io/github/package-json/dependency-version/tricksterCodess/Clock-Synch/react.svg
 [repo-url]: https://github.com/tricksterCodess/Clock-Synch
 [website-shield]: https://img.shields.io/website?url=https://clock-synch.vercel.app/
